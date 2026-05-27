@@ -1,3 +1,4 @@
+#Si te paseas por aca recuerda, no soy un experto ni un amateur solo alguien curioso que tenia una laptop, youtube y ayuda de IA
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -71,14 +72,14 @@ with col2:
                         empalmes.append(f"El día {dia}, **{clases.loc[i, 'Materia']}** choca con **{clases.loc[i+1, 'Materia']}**.")
             
             if empalmes:
-                st.error("🚨 **¡ALERTA DE EMPALME DETECTADA!**")
+                st.error("🚨 **¡EMPALME DETECTADO!**")
                 for e in empalmes:
                     st.write("- " + e)
                 st.info("Por favor, corrige los NRC para poder graficar el plano.")
             else:
                 st.success("✅ No se detectaron empalmes.")
                 
-                # --- RENDERIZADO DEL GRÁFICO (Si no hay empalmes) ---
+                # --- RENDERIZADO DEL GRÁFICO  ---
                 fig = go.Figure()
                 colors = px.colors.qualitative.Plotly
                 materia_to_color = {materia: colors[i % len(colors)] for i, materia in enumerate(mi_horario['Materia'].unique())}
