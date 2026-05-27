@@ -81,7 +81,7 @@ with col2:
                 # --- RENDERIZADO DEL GRÁFICO (Si no hay empalmes) ---
                 fig = go.Figure()
                 colors = px.colors.qualitative.Plotly
-                materia_to_color = {materia: colors[i % len(colors)] for i, enumerate in enumerate(mi_horario['Materia'].unique())}
+                materia_to_color = {materia: colors[i % len(colors)] for i, materia in enumerate(mi_horario['Materia'].unique())}
                 mi_horario['Color'] = mi_horario['Materia'].map(materia_to_color)
 
                 for materia, group in mi_horario.groupby('Materia'):
