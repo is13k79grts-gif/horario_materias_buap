@@ -4,8 +4,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 st.set_page_config(page_title="Mi Horario", layout="wide", initial_sidebar_state="collapsed")
-st.title("⚙️ Sistema Automatizado de Horarios")
-st.markdown("Consulta el catálogo de materias y genera tu plano maestro de clases.")
+st.title("Krea-t tu horario")
+st.markdown("Consulta el catálogo de materias y genera tu horario para este periodo.")
 
 @st.cache_data
 def load_data():
