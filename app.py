@@ -39,7 +39,7 @@ with col1:
 # COLUMNA 2: GENERADOR DE PLANO Y EMPALMES
 # ==========================================
 with col2:
-    st.subheader("🗓️ Plano Maestro")
+    st.subheader("🗓️ Horario Interperiodo Verano")
     nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40996")
     mis_nrcs = [int(nrc.strip()) for nrc in nrc_texto.split(",") if nrc.strip().isdigit()]
 
@@ -49,7 +49,7 @@ with col2:
         if mi_horario.empty:
             st.warning("No se encontraron materias con esos NRC.")
         else:
-            map_dias_num = {'L': 1, 'A': 2, 'M': 3, 'J': 4, 'V': 5}
+            map_dias_num = {'L': 1, 'A': 2, 'M': 3, 'J': 4, 'V': 5, 'S':6}
             mi_horario['Dia_Num'] = mi_horario['Dias'].map(map_dias_num)
 
             def hms_a_decimal(hms_str):
@@ -76,7 +76,7 @@ with col2:
                     st.write("- " + e)
                 st.info("Por favor, corrige los NRC para poder graficar el plano.")
             else:
-                st.success("✅ Estructura viable. No se detectaron empalmes.")
+                st.success("✅ No se detectaron empalmes.")
                 
                 # --- RENDERIZADO DEL GRÁFICO (Si no hay empalmes) ---
                 fig = go.Figure()
