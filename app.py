@@ -9,7 +9,7 @@ st.markdown("Consulta el catálogo de materias y genera tu horario para este per
 
 @st.cache_data
 def load_data():
-    # RUTA ACTUALIZADA PARA GITHUB: Asume que el CSV está en la misma carpeta que este código
+    # RUTA CSV 
     return pd.read_csv('materias.csv')
 
 try:
@@ -40,7 +40,7 @@ with col1:
 # ==========================================
 with col2:
     st.subheader("🗓️ Plano Maestro")
-    nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40996, 40568, 40497")
+    nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40996")
     mis_nrcs = [int(nrc.strip()) for nrc in nrc_texto.split(",") if nrc.strip().isdigit()]
 
     if len(mis_nrcs) > 0:
