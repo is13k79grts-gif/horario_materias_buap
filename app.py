@@ -104,3 +104,5 @@ with col2:
                 )
 
                 st.plotly_chart(fig, use_container_width=True, theme=None)
+                st.markdown("Recuerda tomar captura de tu horario")
+
