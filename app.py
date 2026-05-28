@@ -100,8 +100,12 @@ with col2:
                     yaxis=dict(title="Horario", range=[21.5, 6.5], tickmode='array', tickvals=horas_numeros, ticktext=horas_texto, showgrid=True, gridcolor='#e5e5e5', zeroline=False),
                     margin=dict(l=40, r=40, t=60, b=40)
                 )
+
+
+                st.plotly_chart(fig, use_container_width=True, theme=None)
+
 st.markdown("Recuerda tomar captura de tu horario")
 st.markdown("Si alguien me pregunta por ti, dire que estoy todos los dias alejando mi yo de ti - Marcos Algonia")
 
-                st.plotly_chart(fig, use_container_width=True, theme=None)
+
 
