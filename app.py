@@ -5,8 +5,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 st.set_page_config(page_title="Mi Horario", layout="wide", initial_sidebar_state="collapsed")
-st.title("⚙️ Sistema Automatizado de Horarios")
-st.markdown("Consulta el catálogo de materias y genera tu plano maestro de clases.")
+st.title("⚙️ Krea-t tu horario")
+st.markdown("Consulta el catálogo de materias y genera tu horario para este periodo.")
 
 @st.cache_data
 def load_data():
@@ -33,8 +33,8 @@ with col1:
             st.dataframe(resultados[['NRC', 'Materia', 'Dias', 'Horario', 'Profesor']], hide_index=True, use_container_width=True)
 
 with col2:
-    st.subheader("🗓️ Plano Maestro")
-    nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40996, 40568, 40497")
+    st.subheader("🗓️ Horario Interperiodo Verano")
+    nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40568")
     mis_nrcs = [int(nrc.strip()) for nrc in nrc_texto.split(",") if nrc.strip().isdigit()]
 
     if len(mis_nrcs) > 0:
@@ -57,8 +57,7 @@ with col2:
             
             mi_horario['duration_dec'] = mi_horario['end_dec'] - mi_horario['start_dec']
             
-            # 🛠️ CORRECCIÓN 1: El Ajuste a la Cuadrícula
-            # Si la clase termina en :59, redondeamos la duración visualmente para que cierre el bloque exacto.
+            # CORRECCIÓN 1:
             mi_horario['duration_dec'] = mi_horario['duration_dec'].apply(lambda x: round(x) if abs(x - round(x)) < 0.05 else x)
 
             empalmes = []
@@ -69,12 +68,12 @@ with col2:
                         empalmes.append(f"El día {dia}, **{clases.loc[i, 'Materia']}** choca con **{clases.loc[i+1, 'Materia']}**.")
             
             if empalmes:
-                st.error("🚨 **¡ALERTA DE EMPALME DETECTADA!**")
+                st.error("🚨 **¡EMPALME DETECTADO!**")
                 for e in empalmes:
                     st.write("- " + e)
                 st.info("Por favor, corrige los NRC para poder graficar el plano.")
             else:
-                st.success("✅ Estructura viable. No se detectaron empalmes.")
+                st.success("✅ No se detectaron empalmes.")
                 
                 fig = go.Figure()
                 colors = px.colors.qualitative.Plotly
@@ -101,6 +100,8 @@ with col2:
                     yaxis=dict(title="Horario", range=[21.5, 6.5], tickmode='array', tickvals=horas_numeros, ticktext=horas_texto, showgrid=True, gridcolor='#e5e5e5', zeroline=False),
                     margin=dict(l=40, r=40, t=60, b=40)
                 )
+st.markdown("Recuerda tomar captura de tu horario")
+st.markdown("Si alguien me pregunta por ti, dire que estoy todos los dias alejando mi yo de ti - Marcos Algonia")
 
                 st.plotly_chart(fig, use_container_width=True, theme=None)
 
