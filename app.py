@@ -5,12 +5,11 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 st.set_page_config(page_title="Mi Horario", layout="wide", initial_sidebar_state="collapsed")
-st.title("Krea-t tu horario")
-st.markdown("Consulta el catálogo de materias y genera tu horario para este periodo.")
+st.title("⚙️ Sistema Automatizado de Horarios")
+st.markdown("Consulta el catálogo de materias y genera tu plano maestro de clases.")
 
 @st.cache_data
 def load_data():
-    # RUTA CSV 
     return pd.read_csv('materias.csv')
 
 try:
@@ -21,9 +20,6 @@ except FileNotFoundError:
 
 col1, col2 = st.columns([1, 2])
 
-# ==========================================
-# COLUMNA 1: CATÁLOGO DE MATERIAS
-# ==========================================
 with col1:
     st.subheader("🔍 Catálogo")
     busqueda = st.text_input("Buscar materia por nombre:")
@@ -36,12 +32,9 @@ with col1:
             resultados['Horario'] = resultados['Hora_ini'].astype(str) + " - " + resultados['Hora_fin'].astype(str)
             st.dataframe(resultados[['NRC', 'Materia', 'Dias', 'Horario', 'Profesor']], hide_index=True, use_container_width=True)
 
-# ==========================================
-# COLUMNA 2: GENERADOR DE PLANO Y EMPALMES
-# ==========================================
 with col2:
-    st.subheader("🗓️ Horario Interperiodo Verano")
-    nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40996")
+    st.subheader("🗓️ Plano Maestro")
+    nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40996, 40568, 40497")
     mis_nrcs = [int(nrc.strip()) for nrc in nrc_texto.split(",") if nrc.strip().isdigit()]
 
     if len(mis_nrcs) > 0:
@@ -50,7 +43,7 @@ with col2:
         if mi_horario.empty:
             st.warning("No se encontraron materias con esos NRC.")
         else:
-            map_dias_num = {'L': 1, 'A': 2, 'M': 3, 'J': 4, 'V': 5, 'S':6}
+            map_dias_num = {'L': 1, 'A': 2, 'M': 3, 'J': 4, 'V': 5}
             mi_horario['Dia_Num'] = mi_horario['Dias'].map(map_dias_num)
 
             def hms_a_decimal(hms_str):
@@ -61,9 +54,13 @@ with col2:
             mi_horario['Hora_fin'] = mi_horario['Hora_fin'].astype(str)
             mi_horario['start_dec'] = mi_horario['Hora_ini'].apply(hms_a_decimal)
             mi_horario['end_dec'] = mi_horario['Hora_fin'].apply(hms_a_decimal)
+            
             mi_horario['duration_dec'] = mi_horario['end_dec'] - mi_horario['start_dec']
+            
+            # 🛠️ CORRECCIÓN 1: El Ajuste a la Cuadrícula
+            # Si la clase termina en :59, redondeamos la duración visualmente para que cierre el bloque exacto.
+            mi_horario['duration_dec'] = mi_horario['duration_dec'].apply(lambda x: round(x) if abs(x - round(x)) < 0.05 else x)
 
-            # --- DETECTOR LÓGICO DE EMPALMES ---
             empalmes = []
             for dia, clases_del_dia in mi_horario.groupby('Dias'):
                 clases = clases_del_dia.sort_values('start_dec').reset_index(drop=True)
@@ -72,14 +69,13 @@ with col2:
                         empalmes.append(f"El día {dia}, **{clases.loc[i, 'Materia']}** choca con **{clases.loc[i+1, 'Materia']}**.")
             
             if empalmes:
-                st.error("🚨 **¡EMPALME DETECTADO!**")
+                st.error("🚨 **¡ALERTA DE EMPALME DETECTADA!**")
                 for e in empalmes:
                     st.write("- " + e)
                 st.info("Por favor, corrige los NRC para poder graficar el plano.")
             else:
-                st.success("✅ No se detectaron empalmes.")
+                st.success("✅ Estructura viable. No se detectaron empalmes.")
                 
-                # --- RENDERIZADO DEL GRÁFICO  ---
                 fig = go.Figure()
                 colors = px.colors.qualitative.Plotly
                 materia_to_color = {materia: colors[i % len(colors)] for i, materia in enumerate(mi_horario['Materia'].unique())}
@@ -89,7 +85,9 @@ with col2:
                     custom_data = group[['Profesor', 'Salón', 'Hora_ini', 'Hora_fin']].values
                     fig.add_trace(go.Bar(
                         name=materia, x=group['Dia_Num'], y=group['duration_dec'], base=group['start_dec'],
-                        marker_color=group['Color'].iloc[0], customdata=custom_data, text=group['Materia'],
+                        marker_color=group['Color'].iloc[0], 
+                        opacity=1.0, # 🛠️ CORRECCIÓN 2: Forzamos color sólido para tapar las líneas traseras
+                        customdata=custom_data, text=group['Materia'],
                         textposition='inside', insidetextanchor='middle',
                         hovertemplate="<b>%{text}</b><br><br><b>Profesor:</b> %{customdata[0]}<br><b>Salón:</b> %{customdata[1]}<br><b>Horario:</b> %{customdata[2]} - %{customdata[3]}<br><extra></extra>"
                     ))
@@ -99,11 +97,10 @@ with col2:
 
                 fig.update_layout(
                     barmode='overlay', paper_bgcolor='white', plot_bgcolor='white', font=dict(color='black'), height=700,
-                    xaxis=dict(title="", side='top', tickmode='array', tickvals=[1, 2, 3, 4, 5], ticktext=['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'], showgrid=True, gridcolor='#d3d3d3', zeroline=False),
-                    yaxis=dict(title="Horario", range=[21.5, 6.5], tickmode='array', tickvals=horas_numeros, ticktext=horas_texto, showgrid=True, gridcolor='#d3d3d3', zeroline=False),
+                    xaxis=dict(title="", side='top', tickmode='array', tickvals=[1, 2, 3, 4, 5], ticktext=['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'], showgrid=True, gridcolor='#e5e5e5', zeroline=False),
+                    yaxis=dict(title="Horario", range=[21.5, 6.5], tickmode='array', tickvals=horas_numeros, ticktext=horas_texto, showgrid=True, gridcolor='#e5e5e5', zeroline=False),
                     margin=dict(l=40, r=40, t=60, b=40)
                 )
 
                 st.plotly_chart(fig, use_container_width=True, theme=None)
-                st.markdown("Recuerda tomar captura de tu horario")
 
