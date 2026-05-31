@@ -18,7 +18,7 @@ st.title("⚙️ Krea-t tu horario")
 # Selección de Colegio y Carga de datos
 # ---------------------------------------------------------------------------
 
-# Mapa de rutas 
+# 1. Creamos el diccionario (El mapa de rutas)
 mapa_colegios = {
     "Ingeniería Química (IQ)": "materiasIQ.csv",
     "Ingeniería Ambiental (IA)": "materiasIA.csv",
@@ -26,21 +26,22 @@ mapa_colegios = {
     "Ingeniería en Materiales (MT)": "materiasMT.csv"
 }
 
-# Colegio
+# 2. Le preguntamos al usuario su colegio
 colegio_elegido = st.selectbox(
     "🎓 Selecciona tu licenciatura para cargar el catálogo correspondiente:", 
     list(mapa_colegios.keys())
 )
 
+# 3. Obtenemos el nombre del archivo correcto basado en su elección
 archivo_objetivo = mapa_colegios[colegio_elegido]
 
-
+# 4. Modificamos el caché para que recuerde el archivo dependiendo de la ruta
 @st.cache_data
 def load_data(ruta):
-    return cargar_materias(ruta)
+    return pd.read_csv(ruta) # 🛠️ CORRECCIÓN: Usamos pd.read_csv en lugar de cargar_materias
 
 try:
-    
+    # Ahora le pasamos la variable dinámica
     df = load_data(archivo_objetivo)
     st.success(f"Catálogo de {colegio_elegido} cargado exitosamente.")
 except FileNotFoundError:
