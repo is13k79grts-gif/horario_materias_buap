@@ -1,4 +1,4 @@
-NRC,Materia,Días,Hora_ini ,Hora_fin,Profesor,Salón
+NRC,Materia,Dias,Hora_ini ,Hora_fin,Profesor,SalÃ³n
 40483,Administracion de Proyectos,A,09:00 a. m.,10:59 a. m.,SILVA - AMBRIZ LINDA LAURA,1FIQ1/306
 40483,Administracion de Proyectos,V,09:00 a. m.,10:59 a. m.,SILVA - AMBRIZ LINDA LAURA,1FIQ1/306
 40483,Administracion de Proyectos,L,09:00 a. m.,11:59 a. m.,SILVA - AMBRIZ LINDA LAURA,1FIQ1/306
@@ -79,7 +79,7 @@ GUADALUPE",1FIQ2/203
 41008,Energias Alternas,A,04:00 p. m.,06:59 p. m.,CARBAJAL - MARTINEZ GLORIA,1FIQ1/103
 41008,Energias Alternas,M,04:00 p. m.,06:59 p. m.,CARBAJAL - MARTINEZ GLORIA,1FIQ1/103
 41008,Energias Alternas,J,04:00 p. m.,06:59 p. m.,CARBAJAL - MARTINEZ GLORIA,1FIQ1/103
-41005,Emprendimiento,,#¡VALOR!,#¡VALOR!,GONZALEZ - LIMON MONTSERRAT,1FIQ1V/
+41005,Emprendimiento,,#Â¡VALOR!,#Â¡VALOR!,GONZALEZ - LIMON MONTSERRAT,1FIQ1V/
 45312,Equilibrio Quimico y Catalisis,L,06:00 p. m.,08:59 p. m.,FLORES - GARCIA JOSE RAFAEL,1FIQ1/102
 45312,Equilibrio Quimico y Catalisis,M,06:00 p. m.,08:59 p. m.,FLORES - GARCIA JOSE RAFAEL,1FIQ1/102
 45312,Equilibrio Quimico y Catalisis,V,06:00 p. m.,08:59 p. m.,FLORES - GARCIA JOSE RAFAEL,1FIQ1/102
