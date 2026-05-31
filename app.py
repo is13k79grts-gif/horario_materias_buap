@@ -14,15 +14,39 @@ from utils import generar_horarios_optimos, hms_a_decimal
 st.set_page_config(page_title="Mi Horario", layout="wide", initial_sidebar_state="collapsed")
 st.title("⚙️ Krea-t tu horario")
 
+# ---------------------------------------------------------------------------
+# Selección de Colegio y Carga de datos
+# ---------------------------------------------------------------------------
+
+# Mapa de rutas 
+mapa_colegios = {
+    "Ingeniería Química (IQ)": "materiasIQ.csv",
+    "Ingeniería Ambiental (IA)": "materiasIA.csv",
+    "Ingeniería en Alimentos (IAL)": "materiasIAL.csv",
+    "Ingeniería en Materiales (MT)": "materiasMT.csv"
+}
+
+# Colegio
+colegio_elegido = st.selectbox(
+    "🎓 Selecciona tu licenciatura para cargar el catálogo correspondiente:", 
+    list(mapa_colegios.keys())
+)
+
+archivo_objetivo = mapa_colegios[colegio_elegido]
+
+
 @st.cache_data
-def load_data():
-    return pd.read_csv('materias.csv')
+def load_data(ruta):
+    return cargar_materias(ruta)
 
 try:
-    df = load_data()
+    
+    df = load_data(archivo_objetivo)
+    st.success(f"Catálogo de {colegio_elegido} cargado exitosamente.")
 except FileNotFoundError:
-    st.error("⚠️ No se encontró el archivo materias.csv")
+    st.error(f"⚠️ Aún no se ha subido el archivo {archivo_objetivo} al servidor.")
     st.stop()
+
 
 # --- FUNCIÓN DE DIBUJO  ---
 def dibujar_horario(mi_horario):
