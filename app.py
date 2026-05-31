@@ -37,9 +37,9 @@ archivo_objetivo = mapa_colegios[colegio_elegido]
 
 # 4. Modificamos el caché para que recuerde el archivo dependiendo de la ruta
 @st.cache_data
+@st.cache_data
 def load_data(ruta):
-    return pd.read_csv(ruta, encoding='latin1') # 🛠️ CORRECCIÓN: Lentes para leer acentos y ñ
-try:
+    return pd.read_csv(ruta)
     # Ahora le pasamos la variable dinámica
     df = load_data(archivo_objetivo)
     st.success(f"Catálogo de {colegio_elegido} cargado exitosamente.")
