@@ -118,7 +118,7 @@ with tab_algoritmo:
             st.info("Por favor selecciona al menos una materia para comenzar.")
 st.markdown("Recuerda tomar captura de tu horario.")
 st.markdown(
-    "Aún no tomo en cuenta los créditos, entonces eso debería de quedar a tu consideración :p "
+    "Aún no tomo en cuenta los créditos, entonces eso debería de quedar a tu consideración :p ")
     
 
 st.markdown(
