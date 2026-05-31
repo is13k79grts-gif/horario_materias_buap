@@ -36,17 +36,19 @@ colegio_elegido = st.selectbox(
 archivo_objetivo = mapa_colegios[colegio_elegido]
 
 # 4. Modificamos el caché para que recuerde el archivo dependiendo de la ruta
-@st.cache_data
+# 4. Modificamos el caché para que recuerde el archivo dependiendo de la ruta
 @st.cache_data
 def load_data(ruta):
-    return pd.read_csv(ruta)
+    # Aquí le dejamos sus lentes 'latin1' para que lea los acentos de Ingeniería Ambiental
+    return pd.read_csv(ruta, encoding='latin1')
+
+try:
     # Ahora le pasamos la variable dinámica
     df = load_data(archivo_objetivo)
     st.success(f"Catálogo de {colegio_elegido} cargado exitosamente.")
 except FileNotFoundError:
     st.error(f"⚠️ Aún no se ha subido el archivo {archivo_objetivo} al servidor.")
     st.stop()
-
 
 # --- FUNCIÓN DE DIBUJO  ---
 def dibujar_horario(mi_horario):
