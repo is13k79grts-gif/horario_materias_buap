@@ -118,7 +118,7 @@ with tab_algoritmo:
     
     todas_las_materias = sorted(df['Materia'].unique())
     materias_deseadas = st.multiselect("Elige tus materias:", todas_las_materias)
-    limite_horas = st.slider("Máximo de horas libres toleradas por semana:", 0, 10, 4)
+    limite_horas = st.slider("Máximo de horas libres toleradas por semana:", 0, 20, 4)
 
     if st.button("Generar Horario Óptimo"):
         if len(materias_deseadas) > 0:
