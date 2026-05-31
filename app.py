@@ -1,9 +1,10 @@
-
+#"""
 #app.py — Interfaz de usuario para el generador de horarios.
 #Solo contiene código de Streamlit; la lógica vive en utils.py.
 
-#Si te paseas por acá recuerda: no soy un experto ni un amateur,solo alguien curioso que tenía una laptop, YouTube y ayuda de IA.
-
+#Si te paseas por acá recuerda: no soy un experto ni un amateur,
+#solo alguien curioso que tenía una laptop, YouTube y ayuda de IA.
+#"""
 
 import streamlit as st
 import pandas as pd
@@ -88,7 +89,7 @@ with col2:
                 st.plotly_chart(fig, use_container_width=True, theme=None)
 
     
-    #Algoritmo de creación de horarios automatico
+    
 with tab_algoritmo:
     st.markdown("Selecciona las materias y deja que el algoritmo encuentre las mejores combinaciones sin empalmes.")
     

@@ -1,8 +1,3 @@
-"""
-utils.py — Lógica de negocio para la app de horarios.
-Separado de la UI para facilitar pruebas y reutilización.
-"""
-
 import pandas as pd
 import itertools
 
