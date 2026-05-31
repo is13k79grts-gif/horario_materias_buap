@@ -24,7 +24,7 @@ except FileNotFoundError:
     st.error("⚠️ No se encontró el archivo materias.csv")
     st.stop()
 
-# --- FUNCIÓN DE DIBUJO (Para usarla en ambas pestañas y no repetir código) ---
+# --- FUNCIÓN DE DIBUJO  ---
 def dibujar_horario(mi_horario):
     fig = go.Figure()
     colors = px.colors.qualitative.Plotly
@@ -76,7 +76,7 @@ with tab_manual:
 
     with col2:
         st.subheader("🗓️ Horario Interperiodo")
-        nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40996, 40568, 40497")
+        nrc_texto = st.text_input("📚 Ingresa tus NRCs (separados por comas):", "40568")
         mis_nrcs = [int(nrc.strip()) for nrc in nrc_texto.split(",") if nrc.strip().isdigit()]
 
         if len(mis_nrcs) > 0:
